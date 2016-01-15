@@ -1,0 +1,35 @@
+{
+    "name": "feedify/base-bundle",
+    "type": "symfony-bundle",
+    "description": "Feedify BaseBundle",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Starsoft East Team",
+            "email": "developement@feedify.de"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.3",
+
+        "doctrine/doctrine-bundle": "1.2.*",
+        "doctrine/orm" : "2.3.*"
+    },
+
+    "require-dev": {
+        "behat/behat":  "2.4.*@stable",
+        "behat/mink":   "1.4.*@stable",
+        "behat/symfony2-extension":      "*",
+        "behat/mink-extension":          "*",
+        "behat/mink-browserkit-driver":  "*",
+        "behat/mink-selenium2-driver":   "*",
+        "phpunit/phpunit": "3.7.*"
+    },
+
+    "autoload": {
+        "psr-0": { "Feedify\\BaseBundle": "" }
+    },
+
+    "target-dir": "Feedify/BaseBundle"
+}

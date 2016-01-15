@@ -1,0 +1,36 @@
+services:
+    feedify.config_service:
+        abstract: true
+        calls:
+            - [setDefaultManager, ["@doctrine.orm.default_entity_manager"]]
+            - [setCustomerManager, ["@doctrine.orm.customer_entity_manager"]]
+
+    feedify.market_service:
+        class: Feedify\BaseBundle\Service\Markets
+        parent: feedify.config_service
+        arguments: ['@feedify.language_service']
+
+    feedify.language_service:
+        class: Feedify\BaseBundle\Service\Language
+        arguments: ["@session", "@doctrine.orm.default_entity_manager", "%kernel.default_locale%"]
+
+    base.user_shop_service:
+        class: Feedify\BaseBundle\Service\UserShop
+        arguments: ["@doctrine.orm.entity_manager", "@security.encoder_factory"]
+
+    feedify.legacy_encoder:
+        class: Feedify\BaseBundle\Security\Encoder\LegacyEncoder
+
+    feedify.legacy_customer:
+        class:      Feedify\BaseBundle\Service\Management\Customer
+        arguments: ["@doctrine.orm.default_entity_manager", "@doctrine.orm.customer_entity_manager", '@security.encoder_factory']
+
+    feedify.db_switcher:
+        class: Feedify\BaseBundle\Service\Tools\SelectDatabase
+        arguments: ["@security.context", "@doctrine.dbal.customer_connection", "@doctrine.orm.default_entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    feedify.clickatell_service:
+        class: Feedify\BaseBundle\Service\Messages\Clickatell
+        arguments: ['@translator', "%clickatell_user%", "%clickatell_password%", "%clickatell_api_id%", "%clickatell_baseurl%", "%kernel.root_dir%"]
